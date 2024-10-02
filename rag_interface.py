@@ -30,7 +30,7 @@ def chat_interface(username):
 
     rag_instance = SimpleRAG()
 
-    st.subheader("Chat with your documents")
+    # st.subheader("Chat with your documents")
     user_input = st.text_input("Enter your question:")
 
     if user_input:

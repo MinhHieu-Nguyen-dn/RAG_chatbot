@@ -9,7 +9,7 @@ Best used for learning with *centralized* functions and modules of code with exp
 import os
 import sys
 import time
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
 from langchain.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -20,8 +20,8 @@ from langchain_openai import OpenAIEmbeddings
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), '..')))
 
 # Load environment variables from a .env file(for OpenAI API Key)
-load_dotenv()
-os.environ["OPENAI_API_KEY"] = os.getenv('OPENAI_API_KEY')
+# load_dotenv()
+# os.environ["OPENAI_API_KEY"] = os.getenv('OPENAI_API_KEY')
 
 
 class SimpleRAG:

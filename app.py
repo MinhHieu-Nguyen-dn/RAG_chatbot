@@ -1,10 +1,11 @@
 import streamlit as st
-from auth import login, check_authentication, logout
+from auth import init_db, register, login, logout
 from file_management import initialize_folders, upload_files, list_user_files, delete_file, save_api_key
 from rag_interface import encode_documents, chat_interface
 
-# Initialize necessary folders
+# Initialize necessary folders and database
 initialize_folders()
+init_db()
 
 # Set page config
 st.set_page_config(page_title="DocsChat", layout="wide")
@@ -18,18 +19,36 @@ if 'username' not in st.session_state:
     st.session_state.username = None
 
 # Sidebar
-st.sidebar.title("Navigation")
+st.sidebar.title("DocsChat Navigator")
 
 if not st.session_state.authenticated:
-    username = st.sidebar.text_input("Username")
-    password = st.sidebar.text_input("Password", type="password")
-    if st.sidebar.button("Login"):
-        if login(username, password):
-            st.session_state.authenticated = True
-            st.session_state.username = username
-            st.rerun()
-        else:
-            st.sidebar.error("Invalid credentials")
+    auth_option = st.sidebar.radio("Please login to continue:", ["Login", "Don't have an account? Register"])
+
+    if auth_option == "Login":
+        username = st.sidebar.text_input("Username", value='')
+        password = st.sidebar.text_input("Password", type="password", value='')
+        if st.sidebar.button("Login"):
+            if login(username, password):
+                st.session_state.authenticated = True
+                st.session_state.username = username
+                st.rerun()
+            else:
+                st.sidebar.error("Invalid credentials")
+    else:
+        username = st.sidebar.text_input("Register Username", value='')
+        password = st.sidebar.text_input("Register Password", type="password", value='')
+        confirm_password = st.sidebar.text_input("Confirm Register Password", type="password", value='')
+        if st.sidebar.button("Register"):
+            if password != confirm_password:
+                st.sidebar.error("Passwords do not match")
+            else:
+                success, message = register(username, password)
+                if success:
+                    st.sidebar.success(message)
+                    st.session_state.authenticated = False
+                    st.session_state.username = None
+                else:
+                    st.sidebar.error(message)
 else:
     st.sidebar.write(f"Logged in as: {st.session_state.username}")
     if st.sidebar.button("Logout"):
