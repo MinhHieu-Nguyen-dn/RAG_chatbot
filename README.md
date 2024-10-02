@@ -1,26 +1,65 @@
-# Simple RAG Chatbot
+# DocsChat
 
-This is a Streamlit-based web interface for a Simple RAG (Retrieval-Augmented Generation) system.
+DocsChat is a Streamlit-based RAG (Retrieval-Augmented Generation) chatbot application that allows users to interact with their documents through a conversational interface.
 
-## Setup
+*The author is learning to implement "all" RAG techniques while creating this project. The project is still in development.*
 
-1. Clone this repository
-2. Install the required packages:
+## Features
 
-> pip install -r requirements.txt
+- User authentication (registration and login);
+- File management (upload, list, and delete PDF documents);
+- Document encoding (embeddings) for efficient retrieval;
+- Conversational interface to ask questions (one-by-one) about uploaded documents.
 
-3. Run the Streamlit app:
+## RAG Technique (to be updated)
+- v1 (October 2, 2024): Simple RAG with FAISS (branch: `simple-rag`)
 
-> streamlit run app.py
+## Quick Start (latest version)
+Access: https://datum-docs-chat.streamlit.app/
+
+## Install and Run on your Machine
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/MinhHieu-Nguyen-dn/RAG_chatbot
+   cd RAG_chatbot
+   ```
+
+2. Create a virtual environment and activate it:
+   ```
+   conda create -n RAG python=3.12
+   conda activate RAG
+   ```
+
+3. Install the required packages:
+   ```
+   pip install -r requirements.txt
+   ```
 
 ## Usage
 
-1. Login with your username and password
-2. Upload PDF files in the File Management section
-3. Enter your OpenAI API Key
-4. Encode your documents
-5. Use the Chat Interface to ask questions about your documents
+1. Run the Streamlit app:
+   ```
+   streamlit run app.py
+   ```
 
-## Note
+2. Open your web browser and navigate to the URL provided by Streamlit (usually `http://localhost:8501`).
 
-Make sure to keep your OpenAI API Key confidential and do not share it with others.
+3. Register a new account or log in if you already have one.
+
+4. Upload your PDF documents in the "Files & Credentials" section.
+
+5. Enter your OpenAI API key in the designated field.
+
+6. Click on "Encode Documents" to prepare your documents for querying.
+
+7. Navigate to the "Ask my Documents" section to start chatting with your documents.
+
+
+## Security Note
+
+Basic standard.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.

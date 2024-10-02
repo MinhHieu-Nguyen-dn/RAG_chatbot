@@ -1,0 +1,8 @@
+# Ignore everything by default
+*
+
+# Allow only specific file types
+!.gitignore
+!*.py
+!README.md
+!requirements.txt
