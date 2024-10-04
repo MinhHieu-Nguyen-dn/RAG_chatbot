@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 from file_management import get_user_data_path, get_user_index_path, get_user_env_path
 from rag import SimpleRAG
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+import time
 
 
 def load_user_env(username):
@@ -35,6 +36,9 @@ def chat_interface(username):
 
     if user_input:
         with st.spinner("Retrieving context and generating response..."):
+            query_time = time.strftime("%Y-%m-%d %H:%M:%S")
+            print(f"--- {query_time} --- QUESTION: User {st.session_state.username} asked: \"{user_input}\"")
+
             contexts = rag_instance.retrieve_context(index_path, model_embeddings, user_input, k_documents)
 
             # Use ChatOpenAI for response generation
@@ -43,3 +47,5 @@ def chat_interface(username):
 
             st.write("Response:")
             st.write(response)
+            response_time = time.strftime("%Y-%m-%d %H:%M:%S")
+            print(f"--- {response_time} --- RESPONSE: Responded to user {st.session_state.username}: \"{response}\"")

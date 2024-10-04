@@ -2,6 +2,7 @@ import streamlit as st
 from auth import init_db, register, login, logout
 from file_management import initialize_folders, upload_files, list_user_files, delete_file, save_api_key
 from rag_interface import encode_documents, chat_interface
+import time
 
 # Initialize necessary folders and database
 initialize_folders()
@@ -29,6 +30,8 @@ if not st.session_state.authenticated:
         password = st.sidebar.text_input("Password", type="password", value='')
         if st.sidebar.button("Login"):
             if login(username, password):
+                login_time = time.strftime("%Y-%m-%d %H:%M:%S")
+                print(f"--- {login_time} --- USER LOGIN: User {username} logged in.")
                 st.session_state.authenticated = True
                 st.session_state.username = username
                 st.rerun()
@@ -44,6 +47,8 @@ if not st.session_state.authenticated:
             else:
                 success, message = register(username, password)
                 if success:
+                    signup_time = time.strftime("%Y-%m-%d %H:%M:%S")
+                    print(f"--- {signup_time} --- USER SIGNUP: User {username} signed up.")
                     st.sidebar.success(message)
                     st.session_state.authenticated = False
                     st.session_state.username = None
@@ -52,6 +57,8 @@ if not st.session_state.authenticated:
 else:
     st.sidebar.write(f"Logged in as: {st.session_state.username}")
     if st.sidebar.button("Logout"):
+        logout_time = time.strftime("%Y-%m-%d %H:%M:%S")
+        print(f"--- {logout_time} --- USER SIGNUP: User {st.session_state.username} logged out.")
         logout()
         st.rerun()
 
@@ -73,6 +80,8 @@ if st.session_state.authenticated:
                     successful_uploads = upload_files(uploaded_files, st.session_state.username)
                     if successful_uploads:
                         st.success(f"Successfully uploaded {successful_uploads} file(s)!")
+                        uploads_time = time.strftime("%Y-%m-%d %H:%M:%S")
+                        print(f"--- {uploads_time} --- FILES UPLOAD: User {st.session_state.username} uploaded {successful_uploads} file(s).")
                     else:
                         st.error("Error uploading files.")
 
@@ -99,6 +108,8 @@ if st.session_state.authenticated:
         api_key = st.text_input("Enter your OpenAI API Key", type="password")
         if st.button("Save API Key"):
             if save_api_key(api_key, st.session_state.username):
+                save_api_key_time = time.strftime("%Y-%m-%d %H:%M:%S")
+                print(f"--- {save_api_key_time} --- API KEY SAVED: User {st.session_state.username} saved an API Key.")
                 st.success("API Key saved successfully!")
             else:
                 st.error("Error saving API Key.")
@@ -108,6 +119,8 @@ if st.session_state.authenticated:
             with st.spinner("Encoding documents..."):
                 encode_documents(st.session_state.username)
             st.success("Documents encoded successfully!")
+            encoded_time = time.strftime("%Y-%m-%d %H:%M:%S")
+            print(f"--- {encoded_time} --- ENCODE DOCUMENTS: User {st.session_state.username} encoded documents successfully.")
 
     elif page == "Ask my Documents":
         st.title("Ask my Documents")

@@ -70,7 +70,7 @@ class SimpleRAG:
                 chunk.page_content = chunk.page_content.replace('\t', ' ')
             return list_of_chunks
 
-        print("\n--- SimpleRAG - Process Starts: Encoding documents---")
+        print(f"\n{time.strftime("%Y-%m-%d %H:%M:%S")} --- SimpleRAG - Process Starts: Encoding documents---")
 
         start_time = time.time()
         # Documents chunking
@@ -97,19 +97,19 @@ class SimpleRAG:
         self.time_records['Chunking'] = chunking_time
 
         # Encode the documents into a vector store using model_embedding
-        print("\n--- Creating vectorstore for document embeddings index ---")
+        print(f"\n{time.strftime("%Y-%m-%d %H:%M:%S")} --- Creating vectorstore for document embeddings index ---")
         vectorstore = FAISS.from_documents(all_chunks, model_embedding)
 
         embedding_time = time.time() - start_time
         self.time_records['Embedding'] = embedding_time
 
         # Save the encoded documents index to index_path
-        print('\n--- Saving the encoded documents index ---')
+        print(f"\n{time.strftime("%Y-%m-%d %H:%M:%S")} --- Saving the encoded documents index ---")
         print(f'Index path: {index_path}')
         print(f'Total index count: {vectorstore.index.ntotal}')
         vectorstore.save_local(index_path)
 
-        print(f"Process Completed! Chunking Time: {chunking_time:.2f} seconds; Embedding Time: {embedding_time:.2f} seconds.")
+        print(f"\n{time.strftime("%Y-%m-%d %H:%M:%S")} Process Completed! Chunking Time: {chunking_time:.2f} seconds; Embedding Time: {embedding_time:.2f} seconds.")
 
     def retrieve_context(self, index_path, model_embedding, query, k_retrieved=3):
         """
@@ -124,7 +124,7 @@ class SimpleRAG:
         Returns:
             Retrieval context and time.
         """
-        print("\n--- SimpleRAG - Process Starts: Retrieving Contexts---")
+        print(f"\n{time.strftime("%Y-%m-%d %H:%M:%S")} --- SimpleRAG - Process Starts: Retrieving Contexts---")
 
         # Create a retriever from the vector store index
         print('\n--- Loading index retriever ---')
@@ -145,7 +145,7 @@ class SimpleRAG:
         self.time_records['Retrieval'] = retrieval_time
 
         # Return the retrieved context and time
-        print('\n--- Context retrieval completed ---')
+        print(f"\n{time.strftime("%Y-%m-%d %H:%M:%S")}--- Context retrieval completed ---")
         print(f"Retrieval Time: {retrieval_time:.2f} seconds")
 
         # Display the retrieved context
